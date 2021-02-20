@@ -12,16 +12,16 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('./scripts'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = u'eYRC-VB#1202 Task 5'
 copyright = u'2021, Neehal Sharrma, Leander D\'Souza, Hiren Gupta, Arjun Hariharan'
-author = u'Neehal Sharrma, Leander D\'Souza, Hiren Gupta, Arjun Hariharan'
+author = u'Neehal Sharrma (Leader), Leander D\'Souza, Hiren Gupta, Arjun Hariharan'
 
 # The short X.Y version
 version = u''
@@ -48,6 +48,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+    'sphinx_rtd_theme'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -84,12 +85,15 @@ pygments_style = None
 # a list of builtin themes.
 #
 html_theme = 'alabaster'
+html_logo = 'eyrc.png'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {'collapse_navigation': True,
+                      'sticky_navigation': False
+                      }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

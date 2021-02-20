@@ -1,0 +1,387 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>node_t5_ur5_1 &#8212; eYRC-VB#1202 Task 5  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for node_t5_ur5_1</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script controls the UR5 near the shelf for placing boxes on the conveyor.</span>
+<span class="sd">It borrows methods from :mod:`lib_task5` for execution, and</span>
+<span class="sd">uses multithreading to operate :meth:`controller &lt;UR5One.controller&gt;` and the order pipeline</span>
+<span class="sd">simultaneously.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">rospy</span><span class="o">,</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">rospy.exceptions</span> <span class="kn">import</span> <span class="n">ROSInterruptException</span>
+
+<span class="kn">from</span> <span class="nn">pkg_ros_iot_bridge.msg</span> <span class="kn">import</span> <span class="n">msgMqttSub</span>  <span class="c1"># ROS-IoT Bridge MQTT</span>
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">lib_task5</span> <span class="kn">import</span> <span class="n">Ur5Moveit</span>  <span class="c1"># The library for the UR5s</span>
+<span class="kn">from</span> <span class="nn">node_iot_action_client</span> <span class="kn">import</span> <span class="n">RosIotBridgeActionClient</span>  <span class="c1"># ROS-IoT Bridge Client</span>
+
+
+<div class="viewcode-block" id="UR5One"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_1.html#node_t5_ur5_1.UR5One">[docs]</a><span class="k">class</span> <span class="nc">UR5One</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for the module.</span>
+
+<span class="sd">    :var list(dict) order_list: A queue of total received orders to dispatch.</span>
+<span class="sd">    :var list(dict) hp_list: Queue of High-Priority packages.</span>
+<span class="sd">    :var list(dict) mp_list: Queue of Medium-Priority packages.</span>
+<span class="sd">    :var list(dict) lp_list: Queue of Low Priority packages.</span>
+<span class="sd">    :var list(str) package_colours: Stores the packages colours from :meth:`package_callback`</span>
+<span class="sd">    :var rospy.Publisher pub_dispatched_order: Publisher for sending dispatch order stats to UR5_2.</span>
+<span class="sd">    :var rospy.Subscriber sub_package_colour: Subscriber for :meth:`package_callback`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor containing essential data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># A queue of total orders received to be dispatched</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hp_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Queue of High-Priority packages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mp_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Queue of Medium-Priority packages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lp_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Queue of Low Priority packages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># String list to store packages colours from package_callback()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pub_dispatched_order</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;/dispatched_order&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;/ros_iot_bridge/mqtt/sub&#39;</span><span class="p">,</span>
+                         <span class="n">msgMqttSub</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">order_callback</span><span class="p">)</span>
+
+        <span class="c1"># Subscriber for Shelf Camera for decoding package colours</span>
+        <span class="c1"># This is only required to get data once</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_package_colour</span> <span class="o">=</span> \
+            <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;/package_colour&#39;</span><span class="p">,</span>
+                             <span class="n">String</span><span class="p">,</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">package_callback</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UR5One.order_callback"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_1.html#node_t5_ur5_1.UR5One.order_callback">[docs]</a>    <span class="k">def</span> <span class="nf">order_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg_order</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback function for incoming orders Subscriber.</span>
+<span class="sd">        Generates a queue of orders to be dispatched.</span>
+
+<span class="sd">        :arg msgMqttSub.msg msg_order: The online order data sent by the server to the client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">order</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg_order</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+        <span class="c1"># The order received, separated into its separate fields as a python dictionary</span>
+
+        <span class="c1"># Setting priority and price based on item description</span>
+        <span class="k">if</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;item&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Medicine&quot;</span><span class="p">:</span>
+            <span class="n">priority</span> <span class="o">=</span> <span class="s2">&quot;HP&quot;</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="s2">&quot;450&quot;</span>
+        <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;item&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Food&quot;</span><span class="p">:</span>
+            <span class="n">priority</span> <span class="o">=</span> <span class="s2">&quot;MP&quot;</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="s2">&quot;250&quot;</span>
+        <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;item&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Clothes&quot;</span><span class="p">:</span>
+            <span class="n">priority</span> <span class="o">=</span> <span class="s2">&quot;LP&quot;</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="s2">&quot;150&quot;</span>
+
+        <span class="k">if</span> <span class="n">order</span><span class="p">:</span>
+            <span class="c1"># Filling in order details</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;IncomingOrders&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Team Id&quot;</span><span class="p">:</span> <span class="s2">&quot;VB#1202&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Unique Id&quot;</span><span class="p">:</span> <span class="s2">&quot;isAmiTvb&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Order ID&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;order_id&quot;</span><span class="p">],</span>
+                     <span class="s2">&quot;Order Date and Time&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;order_time&quot;</span><span class="p">],</span>
+                     <span class="s2">&quot;Item&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;item&quot;</span><span class="p">],</span>
+                     <span class="s2">&quot;Priority&quot;</span><span class="p">:</span> <span class="n">priority</span><span class="p">,</span>
+                     <span class="s2">&quot;Order Quantity&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;qty&quot;</span><span class="p">],</span>
+                     <span class="s2">&quot;City&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;city&quot;</span><span class="p">],</span>
+                     <span class="s2">&quot;Latitude&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">],</span>
+                     <span class="s2">&quot;Longitude&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">],</span>
+                     <span class="s2">&quot;Cost&quot;</span><span class="p">:</span> <span class="n">cost</span><span class="p">}</span>
+
+            <span class="c1"># Updating Spreadsheet</span>
+            <span class="n">ACTION_CLIENT</span><span class="o">.</span><span class="n">send_goal_pls</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">order_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>  <span class="c1"># Updating the queue with the current order</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">priority_sorter</span><span class="p">()</span>  <span class="c1"># Sorting the orders by priority</span></div>
+
+
+<div class="viewcode-block" id="UR5One.package_callback"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_1.html#node_t5_ur5_1.UR5One.package_callback">[docs]</a>    <span class="k">def</span> <span class="nf">package_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg_package_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback function for :attr:`sub_package_colours &lt;UR5One&gt;`.</span>
+<span class="sd">        Formats the colour list received from the shelf camera</span>
+<span class="sd">        into an operable list.</span>
+
+<span class="sd">        :arg list(str) msg_package_list: CSV-formatted list of all the package colours in order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">temp_var</span> <span class="o">=</span> <span class="n">msg_package_list</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>  <span class="c1"># Converting the CSV</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_var</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span> <span class="ow">and</span> <span class="s1">&#39;NA&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">temp_var</span><span class="p">:</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logwarn</span><span class="p">(</span><span class="s2">&quot;Configuration stored:&quot;</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logwarn</span><span class="p">(</span><span class="n">temp_var</span><span class="p">)</span>
+            <span class="c1"># Once data has been retrieved once it is not required anymore</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sub_package_colour</span><span class="o">.</span><span class="n">unregister</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span> <span class="o">=</span> <span class="n">temp_var</span></div>
+
+
+<div class="viewcode-block" id="UR5One.priority_sorter"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_1.html#node_t5_ur5_1.UR5One.priority_sorter">[docs]</a>    <span class="k">def</span> <span class="nf">priority_sorter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sorts the order queue according to priority, into </span>
+<span class="sd">        :attr:`hp_list &lt;UR5One&gt;`, :attr:`mp_list &lt;UR5One&gt;`,</span>
+<span class="sd">        and :attr:`lp_list &lt;UR5One&gt;`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hp_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mp_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lp_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order_list</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># Iterating through the Queue to sort the orders by priority</span>
+            <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order_list</span><span class="p">):</span>
+                <span class="n">curr_order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;HP&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">hp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_order</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MP&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_order</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LP&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">lp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_order</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="UR5One.shelf_plan"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_1.html#node_t5_ur5_1.UR5One.shelf_plan">[docs]</a>    <span class="k">def</span> <span class="nf">shelf_plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. autometh: shelf_plan</span>
+
+<span class="sd">        Conducts pick-place planning for the packages on the shelf.</span>
+
+<span class="sd">        :arg dict order: The current order to dispatch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">package_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;R0CO&#39;</span><span class="p">,</span> <span class="s1">&#39;R0C1&#39;</span><span class="p">,</span> <span class="s1">&#39;R0C2&#39;</span><span class="p">,</span> <span class="s1">&#39;R1C0&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;R1C1&#39;</span><span class="p">,</span> <span class="s1">&#39;R1C2&#39;</span><span class="p">,</span> <span class="s1">&#39;R2C0&#39;</span><span class="p">,</span> <span class="s1">&#39;R2C1&#39;</span><span class="p">,</span> <span class="s1">&#39;R2C2&#39;</span><span class="p">]</span>  <span class="c1"># Package numbers on the shelf</span>
+        <span class="c1"># List of packages that use a different place configuration</span>
+        <span class="n">place_config_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+        <span class="n">packagen</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Will be used to pick the selected prioritised package</span>
+
+        <span class="c1"># Selecting the package to pick based on priority</span>
+        <span class="k">if</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;HP&quot;</span><span class="p">:</span>
+            <span class="n">packagen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span><span class="p">[</span><span class="n">packagen</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MP&quot;</span><span class="p">:</span>
+            <span class="n">packagen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;yellow&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span><span class="p">[</span><span class="n">packagen</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="n">order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LP&quot;</span><span class="p">:</span>
+            <span class="n">packagen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span><span class="p">[</span><span class="n">packagen</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="c1"># Log operation</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[96m&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;Executing dispatch for package </span><span class="si">{}</span><span class="s2"> with order ID </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">package_list</span><span class="p">[</span><span class="n">packagen</span><span class="p">],</span>
+                                                                        <span class="n">order</span><span class="p">[</span><span class="s2">&quot;Order ID&quot;</span><span class="p">])</span> <span class="o">+</span>
+            <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Execute pick operation</span>
+        <span class="n">UR5</span><span class="o">.</span><span class="n">moveit_hard_play_planned_path_from_file</span><span class="p">(</span>
+            <span class="n">UR5</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;ur5_1/&#39;</span><span class="p">,</span> <span class="s1">&#39;home_to_pkg</span><span class="si">{}</span><span class="s1">.yaml&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">packagen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Activate gripper</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span>\
+<span class="p">(</span>
+    <span class="s1">&#39;rosservice call /eyrc/vb/ur5/activate_vacuum_gripper/ur5_1 &quot;activate_vacuum_gripper: true&quot;&#39;</span>
+<span class="p">)</span>
+
+        <span class="c1"># Execute place operation</span>
+        <span class="k">if</span> <span class="n">packagen</span> <span class="o">+</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">place_config_list</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="s1">&#39;l&#39;</span>  <span class="c1"># Optimised place based on package position</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
+        <span class="n">UR5</span><span class="o">.</span><span class="n">moveit_hard_play_planned_path_from_file</span><span class="p">(</span>
+            <span class="n">UR5</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;ur5_1/&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pkg</span><span class="si">{}</span><span class="s1">_to_place_</span><span class="si">{}</span><span class="s1">.yaml&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">packagen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Deactivate gripper</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span>\
+<span class="p">(</span>
+    <span class="s1">&#39;rosservice call /eyrc/vb/ur5/activate_vacuum_gripper/ur5_1 &quot;activate_vacuum_gripper: false&quot;&#39;</span>
+<span class="p">)</span>
+
+        <span class="c1"># Update dispatch status</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pub_dispatched_order</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
+        <span class="n">order</span><span class="p">[</span><span class="s2">&quot;Dispatch Date and Time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Updating Spreadsheet</span>
+        <span class="n">ACTION_CLIENT</span><span class="o">.</span><span class="n">send_goal_pls</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+
+        <span class="c1"># Log operation</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[96m&quot;</span> <span class="o">+</span> <span class="s2">&quot;Package for order ID </span><span class="si">{}</span><span class="s2"> dispatched!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Order ID&quot;</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Travel back to home for the next operation</span>
+        <span class="n">UR5</span><span class="o">.</span><span class="n">moveit_hard_play_planned_path_from_file</span><span class="p">(</span>
+            <span class="n">UR5</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;ur5_1/&#39;</span><span class="p">,</span> <span class="s1">&#39;place_</span><span class="si">{}</span><span class="s1">_to_home.yaml&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">config</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">order</span></div>
+
+
+<div class="viewcode-block" id="UR5One.controller"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_1.html#node_t5_ur5_1.UR5One.controller">[docs]</a>    <span class="k">def</span> <span class="nf">controller</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Main execution. Finalises the Order Dispatch from :meth:`priority_sorter` and controls the UR5_1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+
+        <span class="c1"># Travelling to home position to prepare for operation</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span>
+            <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[96m&#39;</span> <span class="o">+</span> <span class="s2">&quot;Travelling to home&quot;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[0m&#39;</span><span class="p">)</span>
+        <span class="n">UR5</span><span class="o">.</span><span class="n">moveit_hard_play_planned_path_from_file</span><span class="p">(</span><span class="n">UR5</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span>
+                                                    <span class="s1">&#39;ur5_1/&#39;</span><span class="p">,</span> <span class="s1">&#39;zero_to_home.yaml&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">curr_order</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hp_list</span><span class="p">:</span>
+                    <span class="n">dispatch_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hp_list</span>
+                    <span class="n">curr_order</span> <span class="o">=</span> <span class="n">dispatch_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">hp_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">order_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">curr_order</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mp_list</span><span class="p">:</span>
+                    <span class="n">dispatch_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mp_list</span>
+                    <span class="n">curr_order</span> <span class="o">=</span> <span class="n">dispatch_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">mp_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">order_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">curr_order</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">lp_list</span><span class="p">:</span>
+                    <span class="n">dispatch_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lp_list</span>
+                    <span class="n">curr_order</span> <span class="o">=</span> <span class="n">dispatch_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">lp_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">order_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">curr_order</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">curr_order</span><span class="p">:</span>
+                    <span class="c1"># Updating dispatch information</span>
+                    <span class="n">order</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;OrdersDispatched&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Team Id&quot;</span><span class="p">:</span> <span class="s2">&quot;VB#1202&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Unique Id&quot;</span><span class="p">:</span> <span class="s2">&quot;isAmiTvb&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Order ID&quot;</span><span class="p">:</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;Order ID&quot;</span><span class="p">],</span>
+                             <span class="s2">&quot;City&quot;</span><span class="p">:</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;City&quot;</span><span class="p">],</span>
+                             <span class="s2">&quot;Item&quot;</span><span class="p">:</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;Item&quot;</span><span class="p">],</span>
+                             <span class="s2">&quot;Priority&quot;</span><span class="p">:</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">],</span>
+                             <span class="s2">&quot;Dispatch Quantity&quot;</span><span class="p">:</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;Order Quantity&quot;</span><span class="p">],</span>
+                             <span class="s2">&quot;Cost&quot;</span><span class="p">:</span> <span class="n">curr_order</span><span class="p">[</span><span class="s2">&quot;Cost&quot;</span><span class="p">],</span>
+                             <span class="s2">&quot;Dispatch Status&quot;</span><span class="p">:</span> <span class="s2">&quot;YES&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Dispatch Date and Time&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}</span>
+
+                    <span class="c1"># Controlling the UR5_1</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">shelf_plan</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">ROSInterruptException</span><span class="p">:</span>
+                <span class="k">pass</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">UR5</span> <span class="o">=</span> <span class="n">Ur5Moveit</span><span class="p">(</span><span class="s2">&quot;ur5_1&quot;</span><span class="p">)</span>  <span class="c1"># Initialising the UR5</span>
+
+    <span class="c1"># Start the ROS-IoT Bridge</span>
+    <span class="n">ACTION_CLIENT</span> <span class="o">=</span> <span class="n">RosIotBridgeActionClient</span><span class="p">()</span>
+
+    <span class="c1"># Creating Object of UR5One</span>
+    <span class="n">UR5_1</span> <span class="o">=</span> <span class="n">UR5One</span><span class="p">()</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">UR5_1</span><span class="o">.</span><span class="n">controller</span><span class="p">)</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../cover.html">
+              <img class="logo" src="../_static/eyrc.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="../cover.html">eYRC-VB#1202 Task 5</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../cover.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Neehal Sharrma, Leander D'Souza, Hiren Gupta, Arjun Hariharan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

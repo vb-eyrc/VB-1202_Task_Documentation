@@ -1,0 +1,164 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>2   ROS and Gazebo &#8212; eYRC-VB#1202 Task 5  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="ros-and-gazebo">
+<h1>2&nbsp;&nbsp;&nbsp;ROS and Gazebo<a class="headerlink" href="#ros-and-gazebo" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ros">
+<h2>2.1&nbsp;&nbsp;&nbsp;ROS<a class="headerlink" href="#ros" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id1">
+<img alt="../../_images/ROS Terminal.png" src="../../_images/ROS Terminal.png" />
+<p class="caption"><span class="caption-text">The ROS nodes for the arms in action inside the terminal.</span></p>
+</div>
+<p>Robot Operating System (ROS) is a middleware that interconnects many different sensors, robots, etc. as nodes in a control network, and helps maintain communication pipelines and control between the nodes, thus providing a robust modeling and control system for robotics applications. The task implementation utilized ROS Melodic Morenia, released in 2018, due to its stability and long-term support since it has been around for a long time.</p>
+<p>Through encapsulated modular packages, each containing one or multiple nodes that are run through Python scripts that are collectively executed through launch files in each package, nodes can access configuration files containing formats to send signals to other nodes under, or preloaded data to access during execution, etc. The entire hierarchy of the ROS system implemented in this task can be summarised thus:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#iot-pkg"><span class="std std-ref">2.1.1&nbsp;&nbsp;&nbsp;pkg_ros_iot_bridge</span></a><ul>
+<li><a class="reference internal" href="#iot-node"><span class="std std-ref">2.1.1.1&nbsp;&nbsp;&nbsp;node_ros_iot_bridge</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#task5"><span class="std std-ref">2.1.2&nbsp;&nbsp;&nbsp;pkg_task5</span></a><ul>
+<li><a class="reference internal" href="#task5-lib"><span class="std std-ref">2.1.2.1&nbsp;&nbsp;&nbsp;lib_task5</span></a><ul>
+<li><a class="reference internal" href="#task5-ur51"><span class="std std-ref">2.1.2.1.1&nbsp;&nbsp;&nbsp;node_t5_ur5_1</span></a></li>
+<li><a class="reference internal" href="#task5-ur52"><span class="std std-ref">2.1.2.1.2&nbsp;&nbsp;&nbsp;node_t5_ur5_2</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#task5-package"><span class="std std-ref">2.1.2.2&nbsp;&nbsp;&nbsp;node_package_detect</span></a></li>
+<li><a class="reference internal" href="#task5-client"><span class="std std-ref">2.1.2.3&nbsp;&nbsp;&nbsp;node_action_client</span></a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="pkg-ros-iot-bridge">
+<span id="iot-pkg"></span><h3>2.1.1&nbsp;&nbsp;&nbsp;pkg_ros_iot_bridge<a class="headerlink" href="#pkg-ros-iot-bridge" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="node-ros-iot-bridge">
+<span id="iot-node"></span><h4>2.1.1.1&nbsp;&nbsp;&nbsp;node_ros_iot_bridge<a class="headerlink" href="#node-ros-iot-bridge" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="pkg-task5">
+<span id="task5"></span><h3>2.1.2&nbsp;&nbsp;&nbsp;pkg_task5<a class="headerlink" href="#pkg-task5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="lib-task5">
+<span id="task5-lib"></span><h4>2.1.2.1&nbsp;&nbsp;&nbsp;lib_task5<a class="headerlink" href="#lib-task5" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="node-t5-ur5-1">
+<span id="task5-ur51"></span><h5>2.1.2.1.1&nbsp;&nbsp;&nbsp;node_t5_ur5_1<a class="headerlink" href="#node-t5-ur5-1" title="Permalink to this headline">¶</a></h5>
+</div>
+<div class="section" id="node-t5-ur5-2">
+<span id="task5-ur52"></span><h5>2.1.2.1.2&nbsp;&nbsp;&nbsp;node_t5_ur5_2<a class="headerlink" href="#node-t5-ur5-2" title="Permalink to this headline">¶</a></h5>
+</div>
+</div>
+<div class="section" id="node-package-detect">
+<span id="task5-package"></span><h4>2.1.2.2&nbsp;&nbsp;&nbsp;node_package_detect<a class="headerlink" href="#node-package-detect" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="node-action-client">
+<span id="task5-client"></span><h4>2.1.2.3&nbsp;&nbsp;&nbsp;node_action_client<a class="headerlink" href="#node-action-client" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+</div>
+<div class="section" id="gazebo">
+<h2>2.2&nbsp;&nbsp;&nbsp;Gazebo<a class="headerlink" href="#gazebo" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id2">
+<img alt="../../_images/GazeboSim.png" src="../../_images/GazeboSim.png" />
+<p class="caption"><span class="caption-text">The Gazebo environment provided for the task.</span></p>
+</div>
+<p>The following stuff was used in Gazebo</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../cover.html">
+              <img class="logo" src="../../_static/eyrc.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="../../cover.html">eYRC-VB#1202 Task 5</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../cover.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Neehal Sharrma, Leander D'Souza, Hiren Gupta, Arjun Hariharan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/doctree/Implementation/ROS Gazebo.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
