@@ -1,6 +1,0 @@
-==================
-node_action_client
-==================
-
-.. automodule:: node_action_client
-   :members:

@@ -12,21 +12,21 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-sys.path.insert(0, os.path.abspath('../scripts/'))
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = u'eYRC-VB#1202 Task 5'
-copyright = u'2021, Neehal Sharrma (Leader), Leander D\'Souza, Hiren Gupta, Arjun Hariharan'
-author = u'Neehal Sharrma (Leader), Leander D\'Souza, Hiren Gupta, Arjun Hariharan'
+copyright = u'2021, Neehal Sharrma, Leander D\'Souza, Hiren Gupta, Arjun Hariharan'
+author = u'Neehal Sharrma, Leander D\'Souza, Hiren Gupta, Arjun Hariharan'
 
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'1.0'
+release = u''
 
 
 # -- General configuration ---------------------------------------------------
@@ -42,10 +42,12 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
-    'sphinx_rtd_theme',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -70,7 +72,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
@@ -81,16 +83,13 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
-html_logo = 'eyrc.png'
-html_add_permalink = True
+html_theme = 'alabaster'
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-html_theme_options = {'collapse_navigation': False,
-                      'sticky_navigation': False,
-                     }
+# html_theme_options = {}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -139,7 +138,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'eYRC-VB1202Task5.tex', u'eYRC-VB\\#1202 Task 5 Documentation',
-     u'Neehal Sharrma (Leader), Leander D\'Souza, Hiren Gupta, Arjun Hariharan', 'manual'),
+     u'Neehal Sharrma, Leander D\'Souza, Hiren Gupta, Arjun Hariharan', 'manual'),
 ]
 
 
@@ -168,10 +167,10 @@ texinfo_documents = [
 # -- Options for Epub output -------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = project 
+epub_title = project
 
 # The unique identifier of the text. This can be a ISBN number
-# or the project
+# or the project homepage.
 #
 # epub_identifier = ''
 
@@ -189,3 +188,8 @@ epub_exclude_files = ['search.html']
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
+
+# -- Options for todo extension ----------------------------------------------
+
+# If true, `todo` and `todoList` produce output, else they produce nothing.
+todo_include_todos = True
