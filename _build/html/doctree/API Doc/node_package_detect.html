@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>node_package_detect &mdash; eYRC-VB#1202 Task 5 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="node_iot_action_client" href="node_iot_action_client.html" />
+    <link rel="prev" title="node_t5_ur5_2" href="node_t5_ur5_2.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../cover.html" class="icon icon-home"> eYRC-VB#1202 Task 5
+          
+
+          
+            
+            <img src="../../_static/eyrc.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/Vargi Bot Theme.html">Vargi Bot Theme</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Implementation/Introduction.html">1&nbsp;&nbsp;&nbsp;Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Implementation/Introduction.html#simulation">1.1&nbsp;&nbsp;&nbsp;Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Implementation/Introduction.html#ros-and-gazebo">1.1.1&nbsp;&nbsp;&nbsp;ROS and Gazebo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Implementation/Introduction.html#moveit-and-rviz">1.1.2&nbsp;&nbsp;&nbsp;MoveIt! and RViz</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Implementation/Introduction.html#iot-communication">1.2&nbsp;&nbsp;&nbsp;IoT Communication</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Implementation/Introduction.html#mqtt-protocol">1.2.1&nbsp;&nbsp;&nbsp;MQTT Protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Implementation/Introduction.html#gsuite-sheets-and-email">1.2.2&nbsp;&nbsp;&nbsp;Gsuite (Sheets and Email)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Implementation/ROS Gazebo.html">2&nbsp;&nbsp;&nbsp;ROS and Gazebo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Implementation/ROS Gazebo.html#ros">2.1&nbsp;&nbsp;&nbsp;ROS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Implementation/ROS Gazebo.html#pkg-ros-iot-bridge">2.1.1&nbsp;&nbsp;&nbsp;pkg_ros_iot_bridge</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Implementation/ROS Gazebo.html#node-ros-iot-bridge">2.1.1.1&nbsp;&nbsp;&nbsp;node_ros_iot_bridge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Implementation/ROS Gazebo.html#pkg-task5">2.1.2&nbsp;&nbsp;&nbsp;pkg_task5</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Implementation/ROS Gazebo.html#lib-task5">2.1.2.1&nbsp;&nbsp;&nbsp;lib_task5</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Implementation/ROS Gazebo.html#node-package-detect">2.1.2.2&nbsp;&nbsp;&nbsp;node_package_detect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Implementation/ROS Gazebo.html#node-action-client">2.1.2.3&nbsp;&nbsp;&nbsp;node_action_client</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Implementation/ROS Gazebo.html#gazebo">2.2&nbsp;&nbsp;&nbsp;Gazebo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Implementation/Moveit.html">3&nbsp;&nbsp;&nbsp;MoveIt! and RViz</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Implementation/Moveit.html#moveit">3.1&nbsp;&nbsp;&nbsp;MoveIt!</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Implementation/Moveit.html#controllers">3.1.1&nbsp;&nbsp;&nbsp;Controllers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Implementation/Moveit.html#rviz">3.2&nbsp;&nbsp;&nbsp;RViz</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Implementation/Moveit.html#logical-cameras-and-tf-frames">3.2.1&nbsp;&nbsp;&nbsp;Logical Cameras and TF Frames</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Implementation/Google.html">4&nbsp;&nbsp;&nbsp;GSuite, Sheets and Gmail</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Implementation/Google.html#google-sheets">4.1&nbsp;&nbsp;&nbsp;Google Sheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Implementation/Google.html#gmail-integration">4.2&nbsp;&nbsp;&nbsp;Gmail Integration</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="API Doc.html">Documentation Overview</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="lib_task5.html">lib_task5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_t5_ur5_1.html">node_t5_ur5_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_t5_ur5_2.html">node_t5_ur5_2</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">node_package_detect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_iot_action_client.html">node_iot_action_client</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../cover.html">eYRC-VB#1202 Task 5</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../cover.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="API Doc.html">Documentation Overview</a> &raquo;</li>
+        
+      <li>node_package_detect</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/doctree/API Doc/node_package_detect.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-node_package_detect">
+<span id="node-package-detect"></span><h1>node_package_detect<a class="headerlink" href="#module-node_package_detect" title="Permalink to this headline">¶</a></h1>
+<p>This script handles the detection of the colour of the package under the camera.</p>
+<dl class="class">
+<dt id="node_package_detect.Camera1">
+<em class="property">class </em><code class="descclassname">node_package_detect.</code><code class="descname">Camera1</code><a class="reference internal" href="../../_modules/node_package_detect.html#Camera1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#node_package_detect.Camera1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Camera class to detect on-shelf packages.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>counter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Counts the number of packages detected.</li>
+<li><strong>package_colour</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>)</em>) – Lists all the packages detected.</li>
+<li><strong>frame</strong> – Frame for object detection.</li>
+<li><strong>bridge</strong> – OpenCV bridge variable.</li>
+<li><strong>image_sub</strong> (<em>rospy.Subscriber</em>) – Subscriber for the shelf camera image data.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="node_package_detect.Camera1.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/node_package_detect.html#Camera1.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#node_package_detect.Camera1.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs Img. Proc. calculations.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="node_package_detect.Camera1.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/node_package_detect.html#Camera1.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#node_package_detect.Camera1.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function for <a class="reference internal" href="#node_package_detect.Camera1" title="node_package_detect.Camera1"><code class="xref py py-attr docutils literal notranslate"><span class="pre">image_sub</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> – The raw image data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="node_package_detect.get_qr_data">
+<code class="descclassname">node_package_detect.</code><code class="descname">get_qr_data</code><span class="sig-paren">(</span><em>arg_image</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/node_package_detect.html#get_qr_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#node_package_detect.get_qr_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains data from the QR Code on the package. 
+Returns a result if a QR code is found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>arg_image</strong> – The image to extract data from.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="node_package_detect.listener">
+<code class="descclassname">node_package_detect.</code><code class="descname">listener</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/node_package_detect.html#listener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#node_package_detect.listener" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main subscriber actions.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="node_iot_action_client.html" class="btn btn-neutral float-right" title="node_iot_action_client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="node_t5_ur5_2.html" class="btn btn-neutral float-left" title="node_t5_ur5_2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Neehal Sharrma (Leader), Leander D&#39;Souza, Hiren Gupta, Arjun Hariharan.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
