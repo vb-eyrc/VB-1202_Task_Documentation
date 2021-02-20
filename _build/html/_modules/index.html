@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Overview: module code &mdash; eYRC-VB#1202 Task 5 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../cover.html" class="icon icon-home"> eYRC-VB#1202 Task 5
+          
+
+          
+            
+            <img src="../_static/eyrc.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Introduction/Vargi Bot Theme.html">Vargi Bot Theme</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Implementation/Introduction.html">1&nbsp;&nbsp;&nbsp;Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Introduction.html#simulation">1.1&nbsp;&nbsp;&nbsp;Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Introduction.html#ros-and-gazebo">1.1.1&nbsp;&nbsp;&nbsp;ROS and Gazebo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Introduction.html#moveit-and-rviz">1.1.2&nbsp;&nbsp;&nbsp;MoveIt! and RViz</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Introduction.html#iot-communication">1.2&nbsp;&nbsp;&nbsp;IoT Communication</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Introduction.html#mqtt-protocol">1.2.1&nbsp;&nbsp;&nbsp;MQTT Protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Introduction.html#gsuite-sheets-and-email">1.2.2&nbsp;&nbsp;&nbsp;Gsuite (Sheets and Email)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html">2&nbsp;&nbsp;&nbsp;ROS and Gazebo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#ros">2.1&nbsp;&nbsp;&nbsp;ROS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#pkg-ros-iot-bridge">2.1.1&nbsp;&nbsp;&nbsp;pkg_ros_iot_bridge</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#node-ros-iot-bridge">2.1.1.1&nbsp;&nbsp;&nbsp;node_ros_iot_bridge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#pkg-task5">2.1.2&nbsp;&nbsp;&nbsp;pkg_task5</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#lib-task5">2.1.2.1&nbsp;&nbsp;&nbsp;lib_task5</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#node-package-detect">2.1.2.2&nbsp;&nbsp;&nbsp;node_package_detect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#node-action-client">2.1.2.3&nbsp;&nbsp;&nbsp;node_action_client</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#gazebo">2.2&nbsp;&nbsp;&nbsp;Gazebo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Implementation/Moveit.html">3&nbsp;&nbsp;&nbsp;MoveIt! and RViz</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Moveit.html#moveit">3.1&nbsp;&nbsp;&nbsp;MoveIt!</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Moveit.html#controllers">3.1.1&nbsp;&nbsp;&nbsp;Controllers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Moveit.html#rviz">3.2&nbsp;&nbsp;&nbsp;RViz</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Moveit.html#logical-cameras-and-tf-frames">3.2.1&nbsp;&nbsp;&nbsp;Logical Cameras and TF Frames</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Implementation/Google.html">4&nbsp;&nbsp;&nbsp;GSuite, Sheets and Gmail</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Google.html#google-sheets">4.1&nbsp;&nbsp;&nbsp;Google Sheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Google.html#gmail-integration">4.2&nbsp;&nbsp;&nbsp;Gmail Integration</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/API Doc/API Doc.html">Documentation Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/lib_task5.html">lib_task5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/node_t5_ur5_1.html">node_t5_ur5_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/node_t5_ur5_2.html">node_t5_ur5_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/node_package_detect.html">node_package_detect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/node_iot_action_client.html">node_iot_action_client</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../cover.html">eYRC-VB#1202 Task 5</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../cover.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Overview: module code</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>All modules for which code is available</h1>
+<ul><li><a href="lib_task5.html">lib_task5</a></li>
+<li><a href="node_iot_action_client.html">node_iot_action_client</a></li>
+<li><a href="node_package_detect.html">node_package_detect</a></li>
+<li><a href="node_t5_ur5_1.html">node_t5_ur5_1</a></li>
+<li><a href="node_t5_ur5_2.html">node_t5_ur5_2</a></li>
+</ul>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Neehal Sharrma (Leader), Leander D&#39;Souza, Hiren Gupta, Arjun Hariharan.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

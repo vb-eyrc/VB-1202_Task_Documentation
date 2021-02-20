@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>node_t5_ur5_2 &mdash; eYRC-VB#1202 Task 5 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../cover.html" class="icon icon-home"> eYRC-VB#1202 Task 5
+          
+
+          
+            
+            <img src="../_static/eyrc.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Introduction/Vargi Bot Theme.html">Vargi Bot Theme</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Implementation/Introduction.html">1&nbsp;&nbsp;&nbsp;Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Introduction.html#simulation">1.1&nbsp;&nbsp;&nbsp;Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Introduction.html#ros-and-gazebo">1.1.1&nbsp;&nbsp;&nbsp;ROS and Gazebo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Introduction.html#moveit-and-rviz">1.1.2&nbsp;&nbsp;&nbsp;MoveIt! and RViz</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Introduction.html#iot-communication">1.2&nbsp;&nbsp;&nbsp;IoT Communication</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Introduction.html#mqtt-protocol">1.2.1&nbsp;&nbsp;&nbsp;MQTT Protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Introduction.html#gsuite-sheets-and-email">1.2.2&nbsp;&nbsp;&nbsp;Gsuite (Sheets and Email)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html">2&nbsp;&nbsp;&nbsp;ROS and Gazebo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#ros">2.1&nbsp;&nbsp;&nbsp;ROS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#pkg-ros-iot-bridge">2.1.1&nbsp;&nbsp;&nbsp;pkg_ros_iot_bridge</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#node-ros-iot-bridge">2.1.1.1&nbsp;&nbsp;&nbsp;node_ros_iot_bridge</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#pkg-task5">2.1.2&nbsp;&nbsp;&nbsp;pkg_task5</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#lib-task5">2.1.2.1&nbsp;&nbsp;&nbsp;lib_task5</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#node-package-detect">2.1.2.2&nbsp;&nbsp;&nbsp;node_package_detect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#node-action-client">2.1.2.3&nbsp;&nbsp;&nbsp;node_action_client</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/ROS Gazebo.html#gazebo">2.2&nbsp;&nbsp;&nbsp;Gazebo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Implementation/Moveit.html">3&nbsp;&nbsp;&nbsp;MoveIt! and RViz</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Moveit.html#moveit">3.1&nbsp;&nbsp;&nbsp;MoveIt!</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Moveit.html#controllers">3.1.1&nbsp;&nbsp;&nbsp;Controllers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Moveit.html#rviz">3.2&nbsp;&nbsp;&nbsp;RViz</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doctree/Implementation/Moveit.html#logical-cameras-and-tf-frames">3.2.1&nbsp;&nbsp;&nbsp;Logical Cameras and TF Frames</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/Implementation/Google.html">4&nbsp;&nbsp;&nbsp;GSuite, Sheets and Gmail</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Google.html#google-sheets">4.1&nbsp;&nbsp;&nbsp;Google Sheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/Implementation/Google.html#gmail-integration">4.2&nbsp;&nbsp;&nbsp;Gmail Integration</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doctree/API Doc/API Doc.html">Documentation Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/lib_task5.html">lib_task5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/node_t5_ur5_1.html">node_t5_ur5_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/node_t5_ur5_2.html">node_t5_ur5_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/node_package_detect.html">node_package_detect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doctree/API Doc/node_iot_action_client.html">node_iot_action_client</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../cover.html">eYRC-VB#1202 Task 5</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../cover.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>node_t5_ur5_2</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for node_t5_ur5_2</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Controls the UR5 near the bins to pick up boxes from the conveyor. </span>
+<span class="sd">Borrows methods from :mod:`lib_task5` to aid execution, and uses</span>
+<span class="sd">multithreading to operate the UR5_2 and conveyor simultaneously.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">radians</span>
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">from</span> <span class="nn">rospy.exceptions</span> <span class="kn">import</span> <span class="n">ROSInterruptException</span>
+<span class="kn">import</span> <span class="nn">geometry_msgs.msg</span>
+
+<span class="kn">from</span> <span class="nn">hrwros_gazebo.msg</span> <span class="kn">import</span> <span class="n">LogicalCameraImage</span>
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">lib_task5</span> <span class="kn">import</span> <span class="n">Ur5Moveit</span>  <span class="c1"># The library for the UR5s</span>
+<span class="kn">from</span> <span class="nn">node_iot_action_client</span> <span class="kn">import</span> <span class="n">RosIotBridgeActionClient</span>  <span class="c1"># ROS-IoT Bridge Client</span>
+
+
+<div class="viewcode-block" id="env_data"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.env_data">[docs]</a><span class="k">def</span> <span class="nf">env_data</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Data of all environment-specific parameters:</span>
+
+<span class="sd">    1. Vacuum Gripper Width</span>
+<span class="sd">    2. Box Size</span>
+<span class="sd">    3. Home Position Joint angles for the UR5</span>
+
+<span class="sd">    :return: All environment-specific data specified in the function.</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">box_length</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># Length of the box</span>
+    <span class="n">vacuum_gripper_width</span> <span class="o">=</span> <span class="mf">0.117</span>  <span class="c1"># Vacuum Gripper Width</span>
+    <span class="n">home_joint_angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">radians</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                         <span class="n">radians</span><span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">),</span>
+                         <span class="n">radians</span><span class="p">(</span><span class="o">-</span><span class="mi">85</span><span class="p">),</span>
+                         <span class="n">radians</span><span class="p">(</span><span class="o">-</span><span class="mi">65</span><span class="p">),</span>
+                         <span class="n">radians</span><span class="p">(</span><span class="mi">90</span><span class="p">),</span>
+                         <span class="n">radians</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+
+    <span class="c1"># Return data when called</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">box_length</span><span class="p">,</span>
+            <span class="n">vacuum_gripper_width</span><span class="p">,</span> <span class="n">home_joint_angles</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="pose_set"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.pose_set">[docs]</a><span class="k">def</span> <span class="nf">pose_set</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">rot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assigns pose values w.r.t the world-frame to a PoseStamped object.</span>
+
+<span class="sd">    :arg list(float) trans: Translation Values.</span>
+<span class="sd">    :arg list(float) rot: RPY Rotation Values.</span>
+
+<span class="sd">    :returns: The complete pose with values.</span>
+<span class="sd">    :rtype: PoseStamped object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># If you want to override any values, use this</span>
+    <span class="n">override</span> <span class="o">=</span> <span class="p">[</span><span class="n">trans</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">override</span><span class="p">:</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="n">override</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">rot</span> <span class="o">=</span> <span class="n">override</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">pose</span> <span class="o">=</span> <span class="n">geometry_msgs</span><span class="o">.</span><span class="n">msg</span><span class="o">.</span><span class="n">PoseStamped</span><span class="p">()</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">frame_id</span> <span class="o">=</span> <span class="s1">&#39;world&#39;</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">trans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">trans</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">trans</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">rot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">rot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">rot</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">rot</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">pose</span></div>
+
+
+<div class="viewcode-block" id="box_plan"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.box_plan">[docs]</a><span class="k">def</span> <span class="nf">box_plan</span><span class="p">(</span><span class="n">box_name</span><span class="p">,</span> <span class="n">box_length</span><span class="p">,</span> <span class="n">vacuum_gripper_width</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pick-planning for the boxes.</span>
+
+<span class="sd">    :arg str box_name: The name of the box as detected through the Logical Camera.</span>
+<span class="sd">    :arg float box_length: The size of the box in metres.</span>
+<span class="sd">    :arg float vacuum_gripper_width: The width of the vacuum gripper.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Offset for end effector placement</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">vacuum_gripper_width</span> <span class="o">+</span> <span class="p">(</span><span class="n">box_length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Obtaining the TF transform of the box</span>
+    <span class="p">(</span><span class="n">box_trans</span><span class="p">,</span> <span class="n">box_rot</span><span class="p">)</span> <span class="o">=</span> <span class="n">UR5</span><span class="o">.</span><span class="n">tf_listener</span><span class="o">.</span><span class="n">lookupTransform</span><span class="p">(</span><span class="s2">&quot;/world&quot;</span><span class="p">,</span>
+                                                           <span class="s2">&quot;/logical_camera_2_</span><span class="si">%s</span><span class="s2">_frame&quot;</span> <span class="o">%</span> <span class="n">box_name</span><span class="p">,</span>
+                                                           <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="c1"># Execute pick operation</span>
+    <span class="n">box_pose</span> <span class="o">=</span> <span class="n">pose_set</span><span class="p">(</span><span class="n">box_trans</span><span class="p">,</span> <span class="n">box_rot</span><span class="p">)</span>  <span class="c1"># Collating pose values</span>
+    <span class="n">box_pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">box_pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="n">delta</span>  <span class="c1"># Adding Z Offset</span>
+    <span class="n">UR5</span><span class="o">.</span><span class="n">hard_go_to_pose</span><span class="p">(</span><span class="n">box_pose</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Executing pick travel</span>
+    <span class="c1"># Activate Vacuum Gripper</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span>\
+<span class="p">(</span>
+    <span class="s1">&#39;rosservice call /eyrc/vb/ur5/activate_vacuum_gripper/ur5_2 &quot;activate_vacuum_gripper: true&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="p">)</span>
+
+    <span class="c1"># Travelling back to home</span>
+    <span class="n">UR5</span><span class="o">.</span><span class="n">hard_set_joint_angles</span><span class="p">(</span><span class="n">ENV_VALUES</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rosservice call /eyrc/vb/conveyor/set_power &quot;power: 100&quot;&#39;</span><span class="p">)</span>
+    <span class="c1"># Log the operation</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">logwarn</span><span class="p">(</span>
+        <span class="s2">&quot;Package &#39;</span><span class="si">%s</span><span class="s2">&#39; picked!&quot;</span> <span class="o">%</span> <span class="n">box_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="UR5Two"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.UR5Two">[docs]</a><span class="k">class</span> <span class="nc">UR5Two</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for the module.</span>
+
+<span class="sd">    :var float package_pos: Stores the conveyor position of the detected box.</span>
+<span class="sd">    :var str package_name: Stores models&#39; names from :meth:`camera_callback`.</span>
+<span class="sd">    :var list(str) package_colours: Stores package colours from :meth:`package_callback`.</span>
+<span class="sd">    :var bool ready_flag: Start-stop variable for operation of the UR5_2.</span>
+<span class="sd">    :var dict order: The current order to be shipped.</span>
+<span class="sd">    :var rospy.Subscriber sub_package_colour: Subscriber to receive the list of colours</span>
+<span class="sd">      from the Logical Camera.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor containing essential data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">package_pos</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Stores the conveyor position of the detected box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">package_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>  <span class="c1"># String to store models&#39; names from camera_callback()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># String list to store packages colours from package_callback()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ready_flag</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Start-stop variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># The current dispatched order to be shipped</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_package_colour</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;/package_colour&#39;</span><span class="p">,</span>
+                                                   <span class="n">String</span><span class="p">,</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">package_callback</span><span class="p">)</span>
+
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;/eyrc/vb/logical_camera_2&#39;</span><span class="p">,</span>
+                         <span class="n">LogicalCameraImage</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">camera_callback</span><span class="p">)</span>
+
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;/dispatched_order&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_callback</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="UR5Two.smart_stop"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.UR5Two.smart_stop">[docs]</a>    <span class="k">def</span> <span class="nf">smart_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Multithreading function for conveyor start-stop.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Conveyor Signal variable</span>
+        <span class="n">power_flag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;packagen&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_name</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">package_pos</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.4</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">power_flag</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rosservice call /eyrc/vb/conveyor/set_power &quot;power: 0&quot;&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ready_flag</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">power_flag</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">power_flag</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rosservice call /eyrc/vb/conveyor/set_power &quot;power: 100&quot;&#39;</span><span class="p">)</span>
+                <span class="n">power_flag</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="UR5Two.camera_callback"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.UR5Two.camera_callback">[docs]</a>    <span class="k">def</span> <span class="nf">camera_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg_camera</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback function for Conveyor Logical Camera Subscriber</span>
+
+<span class="sd">        :arg LogicalCameraImage msg_camera:</span>
+<span class="sd">            Data about all the objects detected by the Logical Camera.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">msg_camera</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg_camera</span><span class="o">.</span><span class="n">models</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">package_name</span> <span class="o">=</span> <span class="n">msg_camera</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">package_pos</span> <span class="o">=</span> <span class="n">msg_camera</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">y</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">package_name</span> <span class="o">=</span> <span class="n">msg_camera</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">type</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">package_pos</span> <span class="o">=</span> <span class="n">msg_camera</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">y</span></div>
+
+<div class="viewcode-block" id="UR5Two.order_callback"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.UR5Two.order_callback">[docs]</a>    <span class="k">def</span> <span class="nf">order_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg_order</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback function to receive the data of the currently dispatched order from UR5_1.</span>
+
+<span class="sd">        :arg str msg_order: A JSON string dump of the order data dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg_order</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UR5Two.package_callback"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.UR5Two.package_callback">[docs]</a>    <span class="k">def</span> <span class="nf">package_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg_package_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback function for the package colour decoder Subscriber.</span>
+
+<span class="sd">        :arg list(str) msg_package_list: CSV-formatted list of all the package colours in order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">temp_var</span> <span class="o">=</span> <span class="n">msg_package_list</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>  <span class="c1"># Converting the CSV</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_var</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span> <span class="ow">and</span> <span class="s1">&#39;NA&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">temp_var</span><span class="p">:</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logwarn</span><span class="p">(</span><span class="s2">&quot;Configuration stored:&quot;</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logwarn</span><span class="p">(</span><span class="n">temp_var</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sub_package_colour</span><span class="o">.</span><span class="n">unregister</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span> <span class="o">=</span> <span class="n">temp_var</span></div>
+
+<div class="viewcode-block" id="UR5Two.bin_plan"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.UR5Two.bin_plan">[docs]</a>    <span class="k">def</span> <span class="nf">bin_plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Place-planning for the bins.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">colour_code</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>  <span class="c1"># Terminal Colour Code</span>
+        <span class="n">bin_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Obtain colour/priority of package</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;HP&quot;</span><span class="p">:</span>
+            <span class="n">bin_name</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
+            <span class="n">ship_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">colour_code</span> <span class="o">=</span> <span class="s1">&#39;91&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MP&quot;</span><span class="p">:</span>
+            <span class="n">bin_name</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
+            <span class="n">ship_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">colour_code</span> <span class="o">=</span> <span class="s1">&#39;93&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LP&quot;</span><span class="p">:</span>
+            <span class="n">bin_name</span> <span class="o">=</span> <span class="s2">&quot;g&quot;</span>
+            <span class="n">ship_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">colour_code</span> <span class="o">=</span> <span class="s1">&#39;92&#39;</span>
+
+        <span class="c1"># Travel to bin</span>
+        <span class="n">UR5</span><span class="o">.</span><span class="n">moveit_play_planned_path_from_file</span><span class="p">(</span><span class="n">UR5</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span>
+                                               <span class="s1">&#39;ur5_2/&#39;</span><span class="p">,</span> <span class="s1">&#39;home_to_</span><span class="si">%s</span><span class="s1">.yaml&#39;</span> <span class="o">%</span> <span class="n">bin_name</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># Deactivate the Gripper</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span>\
+<span class="p">(</span>
+    <span class="s1">&#39;rosservice call /eyrc/vb/ur5/activate_vacuum_gripper/ur5_2 &quot;activate_vacuum_gripper: false&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="p">)</span>
+
+        <span class="c1"># Log the operation</span>
+        <span class="k">if</span> <span class="n">bin_name</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+            <span class="n">colour_code</span> <span class="o">=</span> <span class="s1">&#39;91&#39;</span>
+        <span class="k">elif</span> <span class="n">bin_name</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+            <span class="n">colour_code</span> <span class="o">=</span> <span class="s1">&#39;93&#39;</span>
+        <span class="k">elif</span> <span class="n">bin_name</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span>
+            <span class="n">colour_code</span> <span class="o">=</span> <span class="s1">&#39;92&#39;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span>
+            <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[</span><span class="si">{}</span><span class="s1">m</span><span class="si">{}</span><span class="s1"> Package with order ID </span><span class="si">{}</span><span class="s1"> shipped! </span><span class="se">\033</span><span class="s1">[0m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">colour_code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Order ID&quot;</span><span class="p">]))</span>
+
+        <span class="n">ship_instant</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+        <span class="c1"># Update order shipping status</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;OrdersShipped&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;Team Id&quot;</span><span class="p">:</span> <span class="s2">&quot;VB#1202&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;Unique Id&quot;</span><span class="p">:</span> <span class="s2">&quot;isAmiTvb&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;Order ID&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Order ID&quot;</span><span class="p">],</span>
+                 <span class="s2">&quot;City&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;City&quot;</span><span class="p">],</span>
+                 <span class="s2">&quot;Item&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Item&quot;</span><span class="p">],</span>
+                 <span class="s2">&quot;Priority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Priority&quot;</span><span class="p">],</span>
+                 <span class="s2">&quot;Shipped Quantity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Dispatch Quantity&quot;</span><span class="p">],</span>
+                 <span class="s2">&quot;Cost&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[</span><span class="s2">&quot;Cost&quot;</span><span class="p">],</span>
+                 <span class="s2">&quot;Shipped Status&quot;</span><span class="p">:</span> <span class="s2">&quot;YES&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;Shipped Date and Time&quot;</span><span class="p">:</span> <span class="n">ship_instant</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">),</span>
+                 <span class="s2">&quot;Estimated Time of Delivery&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">ship_instant</span> <span class="o">+</span> <span class="n">ship_time</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y&quot;</span><span class="p">)}</span>
+
+        <span class="c1"># Updating Spreadsheet</span>
+        <span class="n">ACTION_CLIENT</span><span class="o">.</span><span class="n">send_goal_pls</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+
+        <span class="c1"># Travel to home</span>
+        <span class="n">UR5</span><span class="o">.</span><span class="n">moveit_play_planned_path_from_file</span><span class="p">(</span><span class="n">UR5</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;ur5_2/&#39;</span><span class="p">,</span>
+                                               <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_to_home.yaml&#39;</span> <span class="o">%</span> <span class="n">bin_name</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="UR5Two.controller"><a class="viewcode-back" href="../doctree/API Doc/node_t5_ur5_2.html#node_t5_ur5_2.UR5Two.controller">[docs]</a>    <span class="k">def</span> <span class="nf">controller</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the main operations, coordinating the UR5_2.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Go to home position</span>
+        <span class="n">UR5</span><span class="o">.</span><span class="n">moveit_play_planned_path_from_file</span><span class="p">(</span><span class="n">UR5</span><span class="o">.</span><span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;ur5_2/&#39;</span><span class="p">,</span> <span class="s1">&#39;zero_to_home.yaml&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Execute planning</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;packagen&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_name</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ready_flag</span><span class="p">:</span> <span class="c1"># When box detected</span>
+                    <span class="n">box_plan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">package_name</span><span class="p">,</span> <span class="n">ENV_VALUES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ENV_VALUES</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">bin_plan</span><span class="p">()</span> <span class="c1"># Execute place operation</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">package_colours</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Removing item from list</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ready_flag</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Signalling conveyor</span>
+
+            <span class="k">except</span> <span class="n">ROSInterruptException</span><span class="p">:</span>
+                <span class="n">quit</span><span class="p">()</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">UR5</span> <span class="o">=</span> <span class="n">Ur5Moveit</span><span class="p">(</span><span class="s2">&quot;ur5_2&quot;</span><span class="p">)</span>  <span class="c1"># Initialise the UR5_2</span>
+    <span class="n">ACTION_CLIENT</span> <span class="o">=</span> <span class="n">RosIotBridgeActionClient</span><span class="p">()</span>  <span class="c1"># Start the ROS-IoT Bridge</span>
+
+    <span class="n">UR5_2</span> <span class="o">=</span> <span class="n">UR5Two</span><span class="p">()</span>
+
+    <span class="c1"># Start the separate conveyor control thread</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">UR5_2</span><span class="o">.</span><span class="n">smart_stop</span><span class="p">)</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># Obtain prerequisite data</span>
+    <span class="n">ENV_VALUES</span> <span class="o">=</span> <span class="n">env_data</span><span class="p">()</span>
+
+    <span class="c1"># Start execution</span>
+    <span class="n">UR5_2</span><span class="o">.</span><span class="n">controller</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Neehal Sharrma (Leader), Leander D&#39;Souza, Hiren Gupta, Arjun Hariharan.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
